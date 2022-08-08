@@ -4,7 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MessagesController extends Controller
+final class MessagesController extends Controller
 {
-    //
+    public function index()
+    {
+        //todo:
+    }
+
+    public function store()
+    {
+        //todo:
+    }
 }
