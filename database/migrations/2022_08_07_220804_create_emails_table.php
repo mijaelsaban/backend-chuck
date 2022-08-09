@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('emails', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('value');
+            $table->string('value', 60);
+            $table->string('name', 60);
+            $table->string('domain', 60);
             $table->timestamps();
         });
     }
