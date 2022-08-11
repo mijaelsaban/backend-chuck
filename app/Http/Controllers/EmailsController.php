@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Email;
 use App\Models\Message;
 use App\Services\Emails\EmailSplitterService;
+use http\Exception\RuntimeException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 final class EmailsController extends Controller
 {
@@ -55,11 +57,20 @@ final class EmailsController extends Controller
 
     public function update(Email $email)
     {
-        //call to api
+        try {
+            $response = Http::get('http://api.icndb.com/jokes/random');
+        } catch (\Throwable $e) {
+            throw new RuntimeException($e->getMessage());
+        }
+
+        $response = json_decode($response->body());
+
         $message = Message::create([
            'email_id' => $email->id,
-            'value' => 'this is a joke'
+            'value' => $response->value->joke
         ]);
+
+        //send email make an event or a job
 
         return [
             'message' => $message
