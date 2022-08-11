@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Email;
+use App\Models\Message;
 use App\Services\Emails\EmailSplitterService;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,8 @@ final class EmailsController extends Controller
      * @throws \Exception
      */
     public function store(Request $request) {
+
+        //request class
         $this->validate($request, [
             'email' => [
                 'required',
@@ -37,6 +40,7 @@ final class EmailsController extends Controller
             $request->get('email')
         );
 
+        //repo maybe inside service?
         $email = Email::create([
             'value' => $request->get('email'),
             'name' => $emailSplitter['name'],
@@ -47,5 +51,18 @@ final class EmailsController extends Controller
            'isSuccess' => true,
            'email' => $email
         ], 201);
+    }
+
+    public function update(Email $email)
+    {
+        //call to api
+        $message = Message::create([
+           'email_id' => $email->id,
+            'value' => 'this is a joke'
+        ]);
+
+        return [
+            'message' => $message
+        ];
     }
 }

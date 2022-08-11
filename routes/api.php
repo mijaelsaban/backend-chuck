@@ -23,12 +23,9 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/emails', [EmailsController::class, 'index']);
     Route::post('/emails', [EmailsController::class, 'store']);
+    Route::put('/emails/{email}', [EmailsController::class, 'update']);
 
-    Route::get('/messages', function () {
-        return response()->json([
-            'email_id' => 1,
-            'isSent' => false,
-            'content' =>  'this is a joke'
-        ]);
-    });
+//    Route::get('/messages', MessagesController::class, 'index');
+//    Route::post('/messages/{id}', MessagesController::class, 'update');
+//    Route::post('/messages', MessagesController::class, 'store');
 });
