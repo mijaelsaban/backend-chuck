@@ -60,23 +60,9 @@ final class EmailsController extends Controller
         ], 201);
     }
 
-    public function update(Email $email)
+    public function update(Email $email, \MessageManagerService $messageManagerService)
     {
-        try {
-            $response = Http::get('http://api.icndb.com/jokes/random');
-        } catch (\Throwable $e) {
-            throw new RuntimeException($e->getMessage());
-        }
-
-        $response = json_decode($response->body());
-
-        $message = Message::create([
-            'email_id' => $email->id,
-            'value' => $response->value->joke
-        ]);
-
-        MessageCreatedJob::dispatch($email->value, $message->value);
-
+        $message = $messageManagerService->handle($email);
         return [
             'message' => $message
         ];
