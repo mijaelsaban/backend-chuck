@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\MessageCreatedJob;
 use App\Models\Email;
 use App\Models\Message;
 use App\Services\Emails\EmailSplitterService;
 use http\Exception\RuntimeException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 final class EmailsController extends Controller
 {
     public function __construct(
         public EmailSplitterService $emailSplitterService
-    ) {}
+    )
+    {
+    }
 
     public function index(Request $request)
     {
@@ -26,7 +30,8 @@ final class EmailsController extends Controller
     /**
      * @throws \Exception
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         //request class
         $this->validate($request, [
@@ -50,8 +55,8 @@ final class EmailsController extends Controller
         ]);
 
         return response()->json([
-           'isSuccess' => true,
-           'email' => $email
+            'isSuccess' => true,
+            'email' => $email
         ], 201);
     }
 
@@ -66,11 +71,11 @@ final class EmailsController extends Controller
         $response = json_decode($response->body());
 
         $message = Message::create([
-           'email_id' => $email->id,
+            'email_id' => $email->id,
             'value' => $response->value->joke
         ]);
 
-        //send email make an event or a job
+        MessageCreatedJob::dispatch($email->value, $message->value);
 
         return [
             'message' => $message
