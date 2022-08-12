@@ -62,7 +62,15 @@ final class EmailsController extends Controller
 
     public function update(Email $email, \MessageManagerService $messageManagerService)
     {
-        $message = $messageManagerService->handle($email);
+        try {
+            $message = $messageManagerService->handle($email);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => __CLASS__ . ' ' . $e->getMessage(),
+                'trace' => $e->getTrace()
+            ], 500);
+        }
+
         return [
             'message' => $message
         ];
