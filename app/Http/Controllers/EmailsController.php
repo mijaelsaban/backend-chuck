@@ -13,16 +13,24 @@ use Illuminate\Support\Facades\Mail;
 
 final class EmailsController extends Controller
 {
-    public function __construct(
-        public EmailSplitterService $emailSplitterService
-    )
-    {
-    }
+    public function __construct(public EmailSplitterService $emailSplitterService)
+    {}
 
     public function index(Request $request)
     {
-        //todo: sort here to frontend
-        $query = Email::orderByDesc('id');
+        $query = Email::query();
+
+        if ($request->has('sort')) {
+            $column = array_key_first($request->get('sort'));
+            $query->orderBy(
+                array_key_first($request->get('sort')),
+                $request->get('sort')[$column]
+            );
+        }
+
+        if (!$request->hasAny('sort')) {
+            $query->orderByDesc('id');
+        }
 
         return $query->paginate(60);
     }
