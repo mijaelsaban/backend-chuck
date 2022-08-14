@@ -79,7 +79,7 @@ final class EmailsControllerTest extends TestCase
 
         $email = Email::factory()->create();
 
-        $response = $this->json('put', 'api/emails/' . $email->id,
+        $this->json('put', 'api/emails/' . $email->id,
             [],
             ['Authorization' => "Bearer " . $this->token]
         );

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Emails\EmailRequest;
 use App\Models\Email;
+use App\Repositories\Emails\EmailsRepository;
 use App\Services\Emails\EmailSplitterService;
 use App\Services\Messages\MessageManagerService;
 use Illuminate\Http\Request;
@@ -34,29 +36,17 @@ final class EmailsController extends Controller
     /**
      * @throws \Exception
      */
-    public function store(Request $request)
+    public function store(EmailRequest $request, EmailsRepository $emailsRepository)
     {
-
-        //request class
-        $this->validate($request, [
-            'email' => [
-                'required',
-//                'unique:emails,value',
-                'email',
-                'string'
-            ]
-        ]);
-
         $emailSplitter = $this->emailSplitterService->handle(
             $request->get('email')
         );
 
-        //repo maybe inside service?
-        $email = Email::create([
-            'value' => $request->get('email'),
-            'name' => $emailSplitter['name'],
-            'domain' => $emailSplitter['domain'],
-        ]);
+        $email = $emailsRepository->create(
+            $request->get('email'),
+            $emailSplitter['name'],
+            $emailSplitter['domain']
+        );
 
         return response()->json([
             'isSuccess' => true,
