@@ -21,7 +21,9 @@ final class MessageCreatedJob implements ShouldQueue
      * @return void
      */
     public function __construct(public string $emailValue, public string $messageValue)
-    {}
+    {
+        //
+    }
 
     /**
      * Execute the job.
@@ -31,7 +33,9 @@ final class MessageCreatedJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            Mail::to($this->emailValue)->send(new MessageCreatedMail($this->messageValue));
+            Mail::to($this->emailValue)
+                ->send(new MessageCreatedMail($this->messageValue));
+
             Log::info('Email was sent to: ' . $this->emailValue);
         } catch (\Throwable $e) {
             Log::error(__CLASS__ . ' ' .  $e->getMessage());

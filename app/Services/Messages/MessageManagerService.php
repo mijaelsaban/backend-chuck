@@ -10,7 +10,7 @@ use App\Repositories\Messages\MessageRepository;
 final class MessageManagerService
 {
     public function __construct(
-        private ChuckNorrisJokesGateway $chuckNorrisJokesGateway,
+        private GatewayInterface $gateway,
         private MessageRepository $messageRepository
     ) {
         //
@@ -18,9 +18,8 @@ final class MessageManagerService
 
     public function handle(Email $email): Message
     {
-        $response = $this->chuckNorrisJokesGateway->request();
-        $response = json_decode($response->body());
-        $message = $this->messageRepository->create($email->id, $response->value->joke);
+        $joke = $this->gateway->request()->getJoke();
+        $message = $this->messageRepository->create($email->id, $joke);
 
         MessageCreatedJob::dispatch($email->value, $message->value);
 

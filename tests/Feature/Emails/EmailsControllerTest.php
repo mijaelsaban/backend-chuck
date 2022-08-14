@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Emails;
 
+use App\Services\Messages\GatewayInterface;
+use Tests\Stubs\GatewayFake;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Email;
@@ -73,6 +75,7 @@ final class EmailsControllerTest extends TestCase
     public function test_update()
     {
         Bus::fake();
+        app()->bind(GatewayInterface::class, GatewayFake::class);
 
         $email = Email::factory()->create();
 
@@ -83,7 +86,8 @@ final class EmailsControllerTest extends TestCase
 
         //created message
         $this->assertDatabaseHas('messages', [
-            'email_id' => $email->id
+            'email_id' => $email->id,
+            'value' => 'this is a fake joke' //value from GatewayFake::getJoke
         ]);
 
         Bus::assertDispatched(MessageCreatedJob::class);

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Messages\ChuckNorrisJokesGateway;
+use App\Services\Messages\GatewayInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            GatewayInterface::class,
+            ChuckNorrisJokesGateway::class
+        );
     }
 
     /**
