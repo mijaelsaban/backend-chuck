@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\MessageCreatedJob;
 use App\Models\Email;
-use App\Models\Message;
 use App\Services\Emails\EmailSplitterService;
-use http\Exception\RuntimeException;
+use App\Services\Messages\MessageManagerService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
 
 final class EmailsController extends Controller
 {
@@ -68,8 +64,10 @@ final class EmailsController extends Controller
         ], 201);
     }
 
-    public function update(Email $email, \MessageManagerService $messageManagerService)
-    {
+    public function update(
+        Email $email,
+        MessageManagerService $messageManagerService
+    ) {
         try {
             $message = $messageManagerService->handle($email);
         } catch (\Throwable $e) {

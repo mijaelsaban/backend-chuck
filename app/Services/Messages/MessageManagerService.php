@@ -1,9 +1,10 @@
 <?php
 
+namespace App\Services\Messages;
+
 use App\Jobs\MessageCreatedJob;
 use App\Models\Email;
 use App\Models\Message;
-use http\Exception\RuntimeException;
 use Illuminate\Support\Facades\Http;
 
 final class MessageManagerService
