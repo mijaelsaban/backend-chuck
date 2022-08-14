@@ -9,12 +9,17 @@ use Illuminate\Support\Facades\Http;
 
 final class MessageManagerService
 {
-    public const HTTP_API_ICNDB_COM_JOKES_RANDOM = 'http://api.icndb.com/jokes/random';
+    public function __construct(
+        private ChuckNorrisJokesGateway $chuckNorrisJokesGateway,
+
+
+    ) {
+        //
+    }
 
     public function handle(Email $email): Message
     {
-
-        $response = Http::get(self::HTTP_API_ICNDB_COM_JOKES_RANDOM);
+        $response = $this->chuckNorrisJokesGateway->request();
         $response = json_decode($response->body());
         $message = Message::create([
             'email_id' => $email->id,

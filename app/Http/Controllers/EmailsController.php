@@ -60,7 +60,11 @@ final class EmailsController extends Controller
 
         return response()->json([
             'isSuccess' => true,
-            'email' => $email
+            'email' => [
+                'value' => $email->value,
+                'name' => $email->name,
+                'domain' => $email->domain,
+            ]
         ], 201);
     }
 
