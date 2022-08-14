@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Emails\EmailRequest;
 use App\Models\Email;
+use Illuminate\Http\Request;
+use App\Http\Requests\Emails\EmailRequest;
 use App\Repositories\Emails\EmailsRepository;
 use App\Services\Emails\EmailSplitterService;
 use App\Services\Messages\MessageManagerService;
-use Illuminate\Http\Request;
 
 final class EmailsController extends Controller
 {
