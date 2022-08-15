@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\EmailsController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-//1|jqveaQ3WPIND8pDs9Bksg8WhambK9fFGd82tTp4C
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/emails', [EmailsController::class, 'index']);
     Route::post('/emails', [EmailsController::class, 'store']);

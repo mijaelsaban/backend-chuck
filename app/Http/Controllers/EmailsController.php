@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Email;
-use Illuminate\Http\Request;
+use App\Http\Requests\Emails\IndexRequest;
 use App\Http\Requests\Emails\EmailRequest;
+use App\Models\Message;
 use App\Repositories\Emails\EmailsRepository;
 use App\Services\Emails\EmailSplitterService;
 use App\Services\Messages\MessageManagerService;
@@ -14,23 +15,9 @@ final class EmailsController extends Controller
     public function __construct(public EmailSplitterService $emailSplitterService)
     {}
 
-    public function index(Request $request)
+    public function index(IndexRequest $request, EmailsRepository $emailsRepository)
     {
-        $query = Email::query();
-
-        if ($request->has('sort')) {
-            $column = array_key_first($request->get('sort'));
-            $query->orderBy(
-                array_key_first($request->get('sort')),
-                $request->get('sort')[$column]
-            );
-        }
-
-        if (!$request->hasAny('sort')) {
-            $query->orderByDesc('id');
-        }
-
-        return $query->paginate(60);
+        return $emailsRepository->getEmails($request->get('sort'));
     }
 
     /**
@@ -71,6 +58,9 @@ final class EmailsController extends Controller
             ], 500);
         }
 
+        /**
+         * @var Message $message
+         */
         return [
             'message' => $message
         ];

@@ -3,6 +3,7 @@
 namespace App\Repositories\Emails;
 
 use App\Models\Email;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class EmailsRepository
 {
@@ -13,5 +14,25 @@ final class EmailsRepository
             'name' => $name,
             'domain' => $domain,
         ]);
+    }
+
+    public function getEmails(array $sort = null, int $perPage = 60): LengthAwarePaginator
+    {
+        $query = Email::query();
+
+        if ($sort) {
+            $column = array_key_first($sort);
+            $query->orderBy(
+                array_key_first($sort),
+                $sort[$column]
+            );
+        }
+
+        if (!$sort) {
+            $query->orderBy('domain');
+            $query->orderBy('name');
+        }
+
+        return $query->paginate($perPage);
     }
 }
