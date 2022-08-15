@@ -1,3 +1,15 @@
+## About Chuck Norris Mailer
+
+This is a demo API written in PHP-LARAVEL to communicate to a frontend, in this case a React app.
+
+You can find the documentation for the API in resources/docs/ChuckNorrisMailer.json - [PASTE THE DOCS INTO THE EDITOR](https://editor.swagger.io/).
+
+All endpoints have feature tests which all should be passing.
+
+@author: Mijael Saban
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
