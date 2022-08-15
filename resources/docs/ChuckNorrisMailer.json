@@ -17,12 +17,14 @@
                 ],
                 "parameters": [
                     {
-                        "in": "path",
+                        "in": "query",
                         "name": "sort",
                         "required": false,
                         "schema": {
-                            "type": "array",
-                            "description": "sort by key of the array is column name and the value is the direction asc or desc"
+                            "type": "string",
+                            "enum": ["asc", "desc"],
+                            "default": "desc",
+                            "description": "sort is an array with key name of column and value asc or desc"
                         }
                     }
                 ],
@@ -115,12 +117,10 @@
                     {
                         "in": "query",
                         "name": "email",
-                        "style": "simple",
                         "required": true,
                         "description": "email value that the user inputs",
                         "schema": {
-                            "type": "string",
-                            "required": true
+                            "type": "string"
                         }
                     }
                 ],
@@ -133,12 +133,10 @@
                                     "type": "object",
                                     "properties": {
                                         "isSuccess": {
-                                            "type": "boolean",
-                                            "required": true
+                                            "type": "boolean"
                                         },
                                         "email": {
                                             "type": "object",
-                                            "required": true,
                                             "properties": {
                                                 "value": {
                                                     "type": "string",
@@ -185,8 +183,8 @@
                 ],
                 "parameters": [
                     {
-                        "in": "query",
-                        "name": "email_save",
+                        "in": "path",
+                        "name": "email",
                         "style": "simple",
                         "required": true,
                         "description": "Receives an email and updates the resource",
