@@ -17,7 +17,7 @@ final class EmailsController extends Controller
 
     public function index(IndexRequest $request, EmailsRepository $emailsRepository)
     {
-        return $emailsRepository->getEmails($request->get('sort'));
+        return $emailsRepository->getEmails($request->get('sort'), 5);
     }
 
     /**
