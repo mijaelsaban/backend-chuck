@@ -24,8 +24,6 @@ final class Email extends Model
         'updated_at'
     ];
 
-    protected $dateFormat = 'd-m-Y';
-
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class)
