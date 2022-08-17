@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailMessagesController;
 use App\Http\Controllers\EmailsController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/emails', [EmailsController::class, 'store']);
     Route::put('/emails/{email}', [EmailsController::class, 'update']);
 
-//    Route::get('/messages', MessagesController::class, 'index');
+    Route::get('/emails/{email}/messages', [EmailMessagesController::class, 'show']);
 //    Route::post('/messages/{id}', MessagesController::class, 'update');
 //    Route::post('/messages', MessagesController::class, 'store');
 });

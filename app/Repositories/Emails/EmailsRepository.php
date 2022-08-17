@@ -18,7 +18,7 @@ final class EmailsRepository
 
     public function getEmails(array $sort = null, int $perPage = 60): LengthAwarePaginator
     {
-        $query = Email::query();
+        $query = Email::with('messages');
 
         if ($sort) {
             $column = array_key_first($sort);

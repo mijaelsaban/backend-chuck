@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $value
  * @property string $name
  * @property string $domain
+ * @property Message $messages
  */
 final class Email extends Model
 {
@@ -18,8 +19,16 @@ final class Email extends Model
 
     protected $guarded = [];
 
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $dateFormat = 'd-m-Y';
+
     public function messages(): HasMany
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class)
+            ->select('id', 'email_id', 'value', 'created_at');
     }
 }
